@@ -24,3 +24,39 @@ def faz_jogada(tabuleiro, linha, coluna):
         tabuleiro[linha][coluna] = 'X'
     return tabuleiro
 
+def afundados(frota, tabuleiro):
+    navios_afundados = 0
+
+    for tipo_navio, posicoes_navios in frota.items():
+        for navio in posicoes_navios:
+            afundado = True
+            for posicao in navio:
+                x, y = posicao
+                if tabuleiro[x][y] != 'X':
+                    afundado = False
+                    break
+            if afundado:
+                navios_afundados += 1
+
+    return navios_afundados
+
+def posicao_valida(frota, linha, coluna, orientacao, tamanho):
+
+    posicoes = define_posicoes(linha, coluna, orientacao, tamanho)
+
+
+    for posicao in posicoes:
+        if posicao[0] < 0 or posicao[0] > 9 or posicao[1] < 0 or posicao[1] > 9:
+            return False
+
+
+    for tipo_navio, navios in frota.items():
+        for navio in navios:
+            for posicao_navio in navio:
+                if posicao_navio in posicoes:
+                    return False
+
+
+    return True
+
+
